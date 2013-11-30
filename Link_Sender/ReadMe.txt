@@ -1,48 +1,54 @@
-========================================================================
-    DYNAMIC LINK LIBRARY : Link_Sender Project Overview
-========================================================================
+Программа состоит из 4 классов.
+__________________________________________________________
+class User
+Данные о пользователе. 
+Хэширование идет по алгоримту MD5
+enum STATUS - перечисление состояний USER (есть новые добавления в друзья, новая ссылка, и т.д)
+Personal File имеет адрес: http://host.ex/"_name_hash"+".usr"
+Авторизация идет путем сравнения текущего хэша пароля в файле с заданным пользователем.
+#acceptRequest пишет имя User в файл к name в секцию Friends.
+__________________________________________________________
+class Request
+Запрос от admin к Name
+Этот класс будет увеличивать функционал по мере необходимости.
+__________________________________________________________
+class Link
+Класс обарачивает ссылку. Будет увеличивать функционал по мере необходимости.
+__________________________________________________________
+Логика программы следующая:
+При регистрации создается пользователь, далее заполняется его персональный файл. Структура файла:
+-------
+Ссылка 1
+...
+Ссылка N
+-------
+Друг 1
+...
+Друг N
+-------
+Запрос 1
+...
+Запрос N
+-------
+Пароль
+-------
+Желательно хранить его в формате Lua.
 
-AppWizard has created this Link_Sender DLL for you.
+При необходимости отправить незнакомому человеку формируется Request и в его файл записывается информация с вашим именем в раздел "Запрос", пареллельно с этим формируется новый файл с названием "admin_hash"+'_'+"friend_hash"+".ls", куда записывается ссылка. Если ответ от Friend отрицательный, то файл удаляется.
+Если ссылкой делятся знакомые люди, то они просто записывают их в общий файл. 
 
-This file contains a summary of what you will find in each of the files that
-make up your Link_Sender application.
+Хранится не более 10 ссылок. Удаляем в порядке очереди.
+Лимита на друзей нет.
+___
+||??Необходим подсчет по памяти - сколько нам нужно??||
+___
 
+Делать классы нужно максимально не привязывая их. В будущем мы многое (как минимум - добавим БД)
+__________________________________________________________
+GUI
 
-Link_Sender.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
+По получению рабочего черновика из консоли, напишем интерфейс на Qt. Это позволит не писать разные стили для Windows и Linux.
+Мобильные версии для Android можно писать, основываясь на Android NDK.  Просто повесить на консольный каркас интерфейс.
 
-Link_Sender.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
-
-Link_Sender.cpp
-    This is the main DLL source file.
-
-	When created, this DLL does not export any symbols. As a result, it
-	will not produce a .lib file when it is built. If you wish this project
-	to be a project dependency of some other project, you will either need to
-	add code to export some symbols from the DLL so that an export library
-	will be produced, or you can set the Ignore Input Library property to Yes
-	on the General propert page of the Linker folder in the project's Property
-	Pages dialog box.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named Link_Sender.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+__________________________________________________________
+Если я где-то ошибся или вы добавили новый метод - пишите сюда, если не очевидно, что н делает.

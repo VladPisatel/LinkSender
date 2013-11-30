@@ -3,11 +3,14 @@
 class Request {
 private:
 	User _admin;
+	char* _name;
+	char* _getHash(char* name);
 	void _writeRequestToFile(char* filename);
 
 public:
-	Request(User);
+	Request(User, char* name);
 	void sendRequest();
+
 	~Request();
 };
 

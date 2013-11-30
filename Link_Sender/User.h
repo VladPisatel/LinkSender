@@ -1,3 +1,4 @@
+#include "Link.h"
 enum STATUS{};
 
 class User {
@@ -11,9 +12,9 @@ private:
 public:
 	User();
 	STATUS chechStatus();
-	bool connectTo(char* name);
 	void changePassword(char* new_password);
-	void saveToFile(char* filename);
+	void sendLink(Link link, char* friend_name);
+	void writeToFile(char* filename);
 	void readFromFile(char* filename);
 	char* getNameHash();
 	char* getFriendsList();
